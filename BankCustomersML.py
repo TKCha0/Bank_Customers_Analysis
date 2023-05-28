@@ -6,6 +6,7 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.metrics import accuracy_score
 from sklearn.ensemble import RandomForestClassifier
 from xgboost import XGBClassifier
+from sklearn.neighbors import KNeighborsClassifier
 
 df = pd.read_csv("BankCustomerData.csv")
 
@@ -17,7 +18,7 @@ for column in df.columns:
     if df[column].dtype == "object":
         print(column)
         print(df[column].unique())
-    
+
 df_filtered = df.replace("unknown",np.nan)
 df_filtered.drop("poutcome",axis=1,inplace=True)
 df_filtered.dropna(inplace=True)
@@ -52,8 +53,11 @@ xgbc.fit(X_train,y_train)
 xgbcy_pred = xgbc.predict(X_test)
 accuracy_score(y_test,xgbcy_pred)
 
-
-
+knn = KNeighborsClassifier()
+knn.fit(X_train,y_train)
+knny_pred = knn.predict(X_test)
+knn.score(X_test,y_test)
+accuracy_score(y_test,knny_pred)
 
 
 
